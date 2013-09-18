@@ -3,6 +3,7 @@ package com.phonegap.helloworld;
 import android.app.Activity;
 import com.phonegap.*;
 import android.os.Bundle;
+/* Test comment 1 */
 
 public class App extends DroidGap {
     /** Called when the activity is first created. */
