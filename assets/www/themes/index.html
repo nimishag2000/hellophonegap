@@ -1,0 +1,698 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+
+
+        <title>QuitNet Mobile</title>
+        <style type="text/css" media="screen">@import "jqtouch/jqtouch.css";</style>
+        
+        <style type="text/css" media="screen">@import "themes/qn1/theme.css";</style>
+        
+        <style type="text/css" media="screen">@import "themes/qn1/iscroll.css";</style>
+        
+        <link rel="stylesheet" href="extensions/add2home.css">
+        <script src="http://code.jquery.com/jquery-latest.js" type="text/javascript"></script>
+            <script type="text/javascript">
+        $(function() {
+            $("input[type='text']:enabled:first").focus();
+        });
+    </script>
+		<script type="application/javascript" src="extensions/add2home.js"></script>
+
+        
+        <script src="jqtouch/jquery-1.4.2.js" type="text/javascript" charset="utf-8"></script>
+        <script src="jqtouch/jqtouch.js" type="application/x-javascript" charset="utf-8"></script>
+        
+        <script src="jqtouch/iscroll.js" type="application/x-javascript" charset="utf-8"></script>
+        
+
+<script>
+
+
+
+  $(document).ready(function(){
+        var my_select = document.getElementsByTagName('select');
+        for (var i=0; i<my_select.length; i++) {
+            my_select[i].addEventListener('touchstart' /*'mousedown'*/, function(e) {
+                myScroll.destroy();
+                setTimeout(function(){myScroll = new iScroll('wrapper');},500);
+            }, false);
+        }
+
+/*if you have input problems */
+
+        var input = document.getElementById('input');
+
+        if (input) {
+            input.addEventListener('touchstart' /*'mousedown'*/, function(e) {
+                e.stopPropagation();
+            }, false);
+        }  
+
+
+
+
+</script>        
+        
+	 <style type="text/css">
+ .watermarkOn {
+color: #CCCCCC;
+font-style: italic;
+}
+
+
+
+* { 
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0); and 
+    -webkit-focus-ring-color:  rgba(0, 0, 0, 0);    
+} 
+ 
+.pwd:focus { 
+    outline: none; 
+    } 
+
+
+</style>
+
+<script type="text/javascript">
+
+var myScroll;
+function loaded() {
+	myScroll = new iScroll('wrapper');
+}
+
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+
+/* * * * * * * *
+ *
+ * Use this for high compatibility (iDevice + Android)
+ *
+ */
+document.addEventListener('DOMContentLoaded', setTimeout(function () { loaded(); }, 200), false);
+/*
+ * * * * * * * */
+
+
+/* * * * * * * *
+ *
+ * Use this for iDevice only
+ *
+ */
+document.addEventListener('DOMContentLoaded', loaded, false);
+/*
+ * * * * * * * */
+
+
+/* * * * * * * *
+ *
+ * Use this if nothing else works
+ *
+ */
+//window.addEventListener('load', setTimeout(function () { loaded(); }, 200), false);
+/*
+ * * * * * * * */
+
+</script>
+        
+        <script type="text/javascript">
+            $(document).ready(function () {
+                /*$(".grayButton").click(function () {
+                    $("#header, #footer").fadeIn("slow");
+                });*/
+
+
+				Watermark('#userName','Username');
+				Watermark('#userPass','Password');
+            });
+        
+        </script>
+        
+        <script type="text/javascript">
+		    $(document).ready(function() { setTimeout(scrollTo,200,0,1) });
+			
+			
+			
+							function Watermark(id,watermarkText)
+{
+//alert(id.WaterMark+'<--------->'+watermarkText);
+$(id).focus(function() {
+        $(this).filter(function() {
+            // We only want this to apply if there's not 
+            // something actually entered
+             return $(this).val() == "" || $(this).val() == $(this).attr('watermark')
+        }).removeClass("watermarkOn").val("");
+		
+		$(this).filter(function() {
+            // We only want this to apply if there's not 
+            // something actually entered
+             return $(this).val() != "" && $(this).val() != $(this).attr('watermark')
+        }).removeClass("watermarkOn").select();
+		
+ //$(id).select();
+    });
+ 
+    // Define what happens when the textbox loses focus
+     // Add the watermark class and default text
+     $(id).blur(function() {
+        $(this).filter(function() {
+            // We only want this to apply if there's not
+             // something actually entered
+             return $(this).val() == ""
+       }).addClass("watermarkOn").val(watermarkText);
+ 
+    });
+}
+		</script>
+
+        
+        <script type="text/javascript">
+            $('#userInfo').hide();
+            function mainLogin() {
+                $('#userInfo').hide();
+                $('#userInfo').text('');
+                var loginE = $('#userName'), loginP = $('#userPass');
+                if ((loginE.val() == "" || loginP.val() == "") || (loginE.val() == "Username" && loginP.val() == "Password")) {
+                    if (loginE.val() == "" || loginE.val() == "Username")
+                         $('#userName').focus();
+                     if (loginP.val() == "" || loginP.val() == "Password")
+                         $('#userPass').focus();
+
+                    $('#userInfo').text('Invalid Username or Password, Please Try Again.  If you dont have an account please go to www.quitnet.com and create an account');
+                    $('#userInfo').show();
+                }
+                else {
+                    $('#userInfo').text('Kindly wait while your login is in process');
+                    $('#userInfo').show();
+                    jQueryUILogin(loginE.val(), loginP.val(), "RedirectToMergedUrl", "#myquit");
+                }
+            }
+
+            // Global logout method.
+            function mainLogout() {
+                jQueryUILogout();
+            }
+
+            $('#jqt .info').click(function () {
+                $(this).hide();
+            });
+
+            function jQueryUILogin(loginEmail, loginPassword, action, redirectUrl) {
+                if (typeof action == "undefined")
+                    action = "Reload";
+
+                if (typeof redirectUrl == "undefined")
+                    redirectUrl = "";
+
+                var d = "{'username': '" + loginEmail + "'"
+                + ",'password': '" + loginPassword + "'"
+                + ",'action': '" + action + "'"
+                + ",'redirectUrl':'" + redirectUrl + "'"
+                + ",'sessionId':''"
+                + ",'apiPartnerId':'83f79646-dd4f-46fe-80f1-bb84e572d4e2'"
+                + ",'sessionTimeout':'20'"
+                + "}";
+
+                document.body.style.cursor = 'wait';
+                var jQT = new $.jQTouch();
+                $.ajax({
+                    type: "POST",
+                    url: 'http://staging.beta.quitnet.com/qapi/loginservices.asmx/Login',
+                    data: d,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        var loginResult = response.d;
+						//alert(response.d);
+                        Identity = loginResult.Identity;
+						//alert(Identity.SessionId);
+						/*alert(Identity.IdentityID);
+						alert(Identity.QuitnetId);
+						alert(Identity.UserName);
+						alert(loginResult.RedirectUrl);*/
+                        $.event.trigger("loggedin");
+                        $('#userInfo').hide();
+                        $('#userInfo').text('');
+						$('#hdSessonID').text(Identity.SessionId);
+
+                        switch (action) {
+                            case "None":
+                                break;
+
+                            case "Reload":
+                                location.reload(true);
+                                break;
+
+                            case "RedirectToClientUrl":
+                            case "RedirectToServerUrl":
+                            case "RedirectToMergedUrl":
+                                //alert(loginResult.RedirectUrl);
+								
+								 $("#header, #footer").fadeIn("slow");
+                                jQT.goTo('#myquit', 'slideup');
+                                MyStats();
+                                break;
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        var err = eval("(" + xhr.responseText + ")");
+                        $('#userInfo').show();
+                        $('#userInfo').text('Invalid Username or Password, Please Try Again.  If you dont have an account please go to www.quitnet.com and create an account');
+                        $.event.trigger("loginerror", err.Message);
+                        //jQT.goBack();
+                        jQT.goTo('#login', 'slideup');
+
+                    },
+                    failure: function (xhr, status, error) {
+                        var err = eval("(" + xhr.responseText + ")");
+                        $('#userInfo').show();
+                        $('#userInfo').text('Invalid Username or Password, Please Try Again.  If you dont have an account please go to www.quitnet.com and create an account');
+                        $.event.trigger("loginfailure", err.Message);
+                        //jQT.goBack();
+                        jQT.goTo('#login', 'slideup');
+
+                    },
+                    complete: function () {
+                        document.body.style.cursor = 'default';
+                    }
+                });
+            }
+
+            var refreshRate = 0.5 * 60 * 1000; //30 seconds
+            function textWatermark12(evt, text) {
+                if (evt == 'focus') {
+                    if ($(text).val() == $(text).attr('watermark')) {
+                        //$(text).val('');
+                    }
+                    else {
+
+                    }
+                    $(text).select();
+                }
+                else {
+                    if($(text).val()=='')
+                        $(text).val($(text).attr('watermark'));
+                }
+            }
+			
+			
+
+            function MyStats() {
+			
+				var d = "{'sessionId':'"+ $('#hdSessonID').text() + "'}";
+			//alert( d);	
+                document.body.style.cursor = 'wait';
+                $.ajax({
+                    type: "POST",
+                    url: 'http://staging.beta.quitnet.com/qapi/detailservice.asmx/GetDetail',
+                    data: d,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+					//alert('HI');
+                        var myStats = response.d;
+						//alert(response.d);
+						//jQueryUILogout();
+						var someDate;
+						//if(myStats.QuitDate != Null)
+							someDate = new Date(+myStats.QuitDate.replace(/\/Date\((-?\d+)\)\//gi, "$1"));
+						//else	
+						//	someDate = '';
+						//alert('' + (1 + someDate.getMonth()) + '/' + someDate.getDate() + '/' + someDate.getFullYear().toString());
+						someDate=(1 + someDate.getMonth()) + '/' + someDate.getDate() + '/' + someDate.getFullYear().toString();
+                        $("#online").text(myStats.TotalOnline);
+                        $("#Buddies").text(myStats.BuddiesOnline);
+                        $("#Anniversaries").text(myStats.Anniversaries);
+                        $("#QuitDate").text(someDate.toString());
+                        $("#SmokeFreeDays").text(myStats.SmokeFreeDays);
+                        $("#Hours").text(myStats.SmokeFreeHours);
+                        $("#NotSmoked").text(myStats.NotSmoked);
+                        $("#SavedDays").text(myStats.LifetimeSavedDays);
+                        $("#SavedHours").text(myStats.LifetimeSavedHours);
+                        $("#SavedMoney").text('$ '+myStats.MoneySaved);
+
+						
+                        var MyClubs = new Array();
+						var num=0;
+						var clubs = '<table><thead><tr><td style="font-size: 12px;font-weight: bold;" colspan="2">My Clubs:</td></tr></thead>'
+						$.each(myStats.MyClubs, function(key, value) { 
+						  num++ ;
+                            clubs += '<tr><td width="20px">' + num.toString() + '.</td><td> ' + value.ClubName + '</td></tr>'
+						});
+						clubs += '</table>';
+						 
+						 //alert(myStats.MyClubs.length);
+						if( myStats.MyClubs.length>0)
+							$('#myClubs').html(clubs);
+						else
+							$('#myClubs').text('-NA-');
+						 
+						//MyClub = myStats.split(";");
+						/*alert(myStats.MyClubs.length);
+                        MyClubs = myStats.MyClubs.split(";");
+						alert(MyClubs);
+                        var clubs = '<table><thead><tr><td style="font-size: 12px;font-weight: bold;">My Clubs:</td></tr></thead>'
+                        for (var i in MyClubs) {
+                            var num = parseInt(i) + 1;
+                            clubs += '<tr><td>' + num.toString() + '. ' + MyClubs[i] + '</td></tr>'
+                        }
+                        clubs += '</table>'
+                        $('#myClubs').html(clubs);*/
+
+//alert(myStats.SampleAlert+'<--------->'+myStats.SampleUpcomingEvent);
+                        $("#SampleAlert").text(myStats.SampleAlert);
+                        $("#SampleUpcomingEvent").text(myStats.SampleUpcomingEvent);
+                    },
+                    error: function (xhr, status, error) {
+					//alert('Hi');
+					var err = eval("(" + xhr.responseText + ")");
+					$.event.trigger("loginerror", err.Message);
+					alert(err.Message);
+					//$('#myquit').hide();
+                      //  $('#login').show();
+                        $('#userInfo').show();
+                        $('#userInfo').text(err.Message);
+						//jQueryUILogout();
+                    },
+                    failure: function (xhr, status, error) {
+					//alert('ffff');
+                        $('#userInfo').show();
+                        $('#userInfo').text('failure!! refreshing stats');
+                    },
+                    complete: function () {
+					//alert('cccc');
+                        document.body.style.cursor = 'default';
+                        setTimeout("MyStats();", refreshRate);
+                    }
+                });
+            }
+
+            function jQueryUILogout() {
+                var d = "{}";
+                
+                document.body.style.cursor = 'wait';
+                $.ajax({
+                    type: "POST",
+                    url: 'http://quitnet.ihomecare.net/member/loginservices.asmx/Logout',
+                    data: d,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        var loginResult = data.d;
+                        Identity = loginResult.Identity;
+                        $.event.trigger("loggedout");
+                        location.href = loginResult.RedirectUrl;
+                    },
+                    error: function (xhr, status, error) {
+                        var err = eval("(" + xhr.responseText + ")");
+                        $.event.trigger("loginerror", err.Message);
+                    },
+                    failure: function (xhr, status, error) {
+                        var err = eval("(" + xhr.responseText + ")");
+                        $.event.trigger("loginfailure", err.Message);
+                    },
+                    complete: function () {
+                        document.body.style.cursor = 'default';
+                    }
+                });
+            }
+
+        
+        
+        </script>
+
+        
+        
+        
+        
+        <script type="text/javascript" charset="utf-8">
+            var jQT, login, header, footer, wrapper = new $.jQTouch({
+                icon: 'quitnet-touch.png',
+                icon4: 'quitnet-touch4.png',
+                addGlossToIcon: true,
+                startupScreen: 'loading-screen.png',
+                statusBar: 'black',
+                preloadImages: [
+                    '../../themes/jqt/img/activeButton.png',
+                    '../../themes/jqt/img/back_button.png',
+                    '../../themes/jqt/img/back_button_clicked.png',
+                    '../../themes/jqt/img/blueButton.png',
+                    '../../themes/jqt/img/button.png',
+                    '../../themes/jqt/img/button_clicked.png',
+                    '../../themes/jqt/img/grayButton.png',
+                    '../../themes/jqt/img/greenButton.png',
+                    '../../themes/jqt/img/redButton.png',
+                    '../../themes/jqt/img/whiteButton.png',
+                    '../../themes/jqt/img/loading.gif'
+                    ]
+            });
+            // Some sample Javascript functions:
+            $(function(){
+                // Show a swipe event on swipe test
+                $('#swipeme').swipe(function(evt, data) {
+                    $(this).html('You swiped <strong>' + data.direction + '/' + data.deltaX +':' + data.deltaY + '</strong>!');
+                    $(this).parent().after('<li>swiped!</li>')
+
+                });
+                $('#tapme').tap(function(){
+                    $(this).parent().after('<li>tapped!</li>')
+                })
+                $('a[target="_blank"]').click(function() {
+                    if (confirm('This link opens in a new window.')) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                });
+                // Page animation callback events
+                $('#pageevents').
+                    bind('pageAnimationStart', function(e, info){ 
+                        $(this).find('.info').append('Started animating ' + info.direction + '&hellip; ');
+                    }).
+                    bind('pageAnimationEnd', function(e, info){
+                        $(this).find('.info').append(' finished animating ' + info.direction + '.<br /><br />');
+                    });
+                // Page animations end with AJAX callback event, example 1 (load remote HTML only first time)
+                $('#callback').bind('pageAnimationEnd', function(e, info){
+                    // Make sure the data hasn't already been loaded (we'll set 'loaded' to true a couple lines further down)
+                    if (!$(this).data('loaded')) {
+                        // Append a placeholder in case the remote HTML takes its sweet time making it back
+                        // Then, overwrite the "Loading" placeholder text with the remote HTML
+                        $(this).append($('<div>Loading</div>').load('ajax.html .info', function() {        
+                            // Set the 'loaded' var to true so we know not to reload
+                            // the HTML next time the #callback div animation ends
+                            $(this).parent().data('loaded', true);  
+                        }));
+                    }
+                });
+                // Orientation callback event
+                $('#jqt').bind('turn', function(e, data){
+                    $('#orient').html('Orientation: ' + data.orientation);
+                });
+                $('#play_movie').bind('tap', function(){
+                    $('#movie').get(0).play();
+                    $(this).removeClass('active');
+                });
+                
+                $('#video').bind('pageAnimationStart', function(e, info){
+                    $('#movie').css('display', 'none');
+                }).bind('pageAnimationEnd', function(e, info){
+                    if (info.direction == 'in')
+                    {
+                        $('#movie').css('display', 'block');
+                    }
+                })
+            });
+        </script>
+        <style type="text/css" media="screen">
+            #jqt.fullscreen #home .info {
+                display: none;
+            }
+            div#jqt #about {
+                padding: 100px 10px 40px;
+                text-shadow: rgba(255, 255, 255, 0.3) 0px -1px 0;
+                font-size: 13px;
+                text-align: center;
+                background: #161618;
+            }
+            div#jqt #about p {
+                margin-bottom: 8px;
+            }
+            div#jqt #about a {
+                color: #fff;
+                font-weight: bold;
+                text-decoration: none;
+            }
+        </style>
+    </head>
+    <body>
+    <div id="header" > 
+   <ul>
+    <li class="left"><img src="images/logo.png" width="120" height="41" alt="Logo"></li>
+     <li class="top-inactive" id="right"><a class="button slideup" href="#"><img src="images/buddies-top-bar.png" alt="Gadget" width="40" height="30" border="0"></a></li>
+    <li class="top-inactive" id="right"><a href="#"><img src="images/qmail-top-bar.png" alt="QMail" width="40" height="30" border="0"></a></li> 
+    <li class="top-inactive" id="right"><a href="#"><img src="images/chat-top-bar.png" alt="Forums" width="40" height="30" border="0"></a></li>  
+    </ul>
+   
+    
+</div><!--topbar-->
+<div id="wrapper"  style="top:0;margin-top:5px">
+      <div id="jqt"  >
+      
+      		
+        
+        <div id="login" class="current">
+               
+             <p class="center" style="vertical-align:0"><img src="images/logo.png" width="120" height="41" alt="QuitNet Mobile Beta"></p>
+                 <ul>
+                    
+                  <li><form autocomplete="off"><input id="userName" name="userName" type="text" value="" watermark="Username" value="Username"  /></form></li><br/>
+                    </ul>
+                 
+                    
+                    <ul>
+                    <li><form autocomplete="off"><input id="userPass" name="userPass" type="password" value="" watermark="Password" value="Password"  /></form></li><br>
+                    
+                    </ul>
+
+                    <ol class="blank-ul">
+					<li class="center-big"><input name="remember-me" type="checkbox" value="" />Remember me
+                    <div id="userInfo" class="info" style="display:none;font-weight: normal;"></div>
+                    <a onClick="mainLogin();" class="grayButton">Login</a></li>
+					<li class="center" style="font-weight: normal;">Not member?  Please visit www.quitnet.com on your computer to Register as a Free or Premium member!</li>
+					</ol>
+<input type="hidden" id="hdSessonID" name ="hdSessonID"  />
+            </div>
+        
+   
+      <div id="gadget" class="selectable">
+                   
+                    
+                    <p><br /><br /><a href="#" class="grayButton goback">Close</a></p>
+            </div>
+      	
+      
+          
+            <div id="myquit" class="">
+                <div class="dashbar">
+                    <table class="inactive" width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td height="44" align="center" valign="middle"><img src="images/dash-icn-1.png" width="45" height="44" alt="icn1"></td>
+    <td align="center" valign="middle"><img src="images/dash-icn-2.png" width="56" height="44" alt="icn2"></td>
+    <td align="center" valign="middle"><img src="images/dash-icn-3.png" width="31" height="44" alt="icn3"></td>
+    <td align="center" valign="middle"><img src="images/dash-icn-4.png" width="44" height="44" alt="icn4"></td>
+  </tr>
+  <tr>
+    <td height="10" align="center" valign="top" class="black-text">Forums</td>
+    <td class="black-text" align="center" valign="top">Community</td>
+    <td class="black-text" align="center" valign="top">Support</td>
+    <td class="black-text" align="center" valign="top">Medication</td>
+  </tr>
+</table>
+                </div>
+                <ul class="metal">
+                
+                <li class="">
+                      <table border="0" cellpadding="0" cellspacing="0">
+                        <tr>
+                          <td align="left" valign="top"><img src="images/icon-tiny-community.png" width="16" height="16"></td>
+                          <td colspan="3" align="left" valign="middle"><table border="0" cellpadding="0">
+                            <tr>
+                              <td class="blue-text">Online :</td>
+                              <td class="em-text"><span id='online'></span></td>
+                            </tr>
+                          </table></td>
+                          <td align="left" valign="middle"><table border="0" cellpadding="0">
+                            <tr>
+                              <td class="blue-text">Buddies :</td>
+                              <td class="em-text"><span id="Buddies"></span></td>
+                            </tr>
+                          </table></td>
+                          <td align="left" valign="middle"><table border="0" cellpadding="0">
+                            <tr>
+                              <td class="blue-text">Anniversaries :</td>
+                              <td class="em-text"><span id="Anniversaries"></span></td>
+                            </tr>
+                          </table></td>
+                        </tr>
+                      </table>
+                </li>
+                    <li class="">
+                    
+                    <table border="0" cellpadding="0">
+  <tr>
+    <td width="18" align="left" valign="top"><img src="images/icon-tiny-gadget.png" width="16" height="16"></td>
+    <td align="left" valign="middle"><strong>Quit Date is</strong></td>
+    <td width="10" align="center" valign="middle">:</td>
+    <td align="left" valign="middle"><span id="QuitDate"></span></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td align="left" valign="middle"><strong>Smoke-Free</strong></td>
+    <td align="center" valign="middle">:</td>
+    <td align="left" valign="middle"><span id="SmokeFreeDays"></span> days, <span id="Hours"> hours</span></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td align="left" valign="middle"><strong>NOT smoked</strong></td>
+    <td align="center" valign="middle">:</td>
+    <td align="left" valign="middle"><span id="NotSmoked"></span> Cigarettes</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td align="left" valign="middle"><strong>Lifetime Saved</strong></td>
+    <td align="center" valign="middle">:</td>
+    <td align="left" valign="middle"><span id="SavedDays"></span> days : <span id="SavedHours"></span> hr</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td align="left" valign="middle"><strong>Money Saved</strong></td>
+    <td align="center" valign="middle">:</td>
+    <td align="left" valign="middle"><span id="SavedMoney"></span></td>
+  </tr>
+</table>
+                    
+                  </li>
+                  
+                   <li class="">
+                      <table border="0" cellpadding="0">
+                        <tr>
+                          <td width="18" align="left" valign="top"><img src="images/icon-tiny-messages.png" width="16" height="16"></td>
+                          <td width="235" align="left" valign="middle"><span id="SampleAlert"></span>, <br>
+<span id="SampleUpcomingEvent"></span>. <br>
+KTQ! Chat schedule</td>
+                        </tr>
+                        <tr>
+                          <td align="left" valign="top"><img src="images/icon-tiny-events.png" width="16" height="16"></td>
+                          <td align="left" valign="middle"><strong>Listing of upcoming event </strong></td>
+                        </tr>
+                      </table>
+                    </li>
+                  
+                  
+                  
+                    <li class="">
+                      <table border="0" cellpadding="0">
+                        <tr>
+                          <td width="18" align="left" valign="top"><img src="images/icon-tiny-myclubs.png" width="16" height="16"></td>
+                          <td width="235" align="left" valign="middle"><span id="myClubs"></span></td>
+                        </tr>
+                      </table>
+                    </li>
+                   
+                    
+              </ul>
+            </div>
+		 </div>
+        </div><!--wrapper-->
+        <div id="footer">
+         <ul>
+    
+    <li class="top-inactive" id="right"><a href="#"><img src="images/bot-bar-feedback.png" alt="QMail" width="40" height="30" border="0"></a></li> 
+   
+   
+    
+    </ul>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,79 @@
+<html>
+<title></title>
+
+<head>
+		<script type="application/javascript" src="extensions/add2home.js"></script>
+
+        
+        <script src="jqtouch/jquery-1.4.2.js" type="text/javascript" charset="utf-8"></script>
+        <script src="jqtouch/jqtouch.js" type="application/x-javascript" charset="utf-8"></script>
+        
+        <script src="jqtouch/iscroll.js" type="application/x-javascript" charset="utf-8"></script>
+        
+
+
+<script>
+*:focus {outline: none;}
+
+input { 
+background-color:transparent; 
+border: 0px solid; 
+height:20px; 
+width:160px; 
+color:#ffff; 
+} 
+
+.nohighlight:focus 
+{ 
+    outline:none; 
+}
+.ext-chrome .x-small-editor .x-form-text{height:14px!important;}
+
+/* Webkit unselectable css fixes */
+/* for some strange reason Chrome still uses on -khtml-user-select, so that rule is still required where missing in ext-all.css 
+
+.x-unselectable,.x-unselectable *{-webkit-user-select:ignore;}
+
+.x-grid3-row td,.x-grid3-summary-row td{-khtml-user-select:none;-webkit-user-select:ignore;}
+
+.x-grid3-focus{-webkit-user-select:text;}
+
+.x-grid3-cell-text,.x-grid3-hd-text{-webkit-user-select:ignore;}
+
+.x-grid3-hd{-khtml-user-select:none;-webkit-user-select:ignore;}
+
+.x-grid3-cell,.x-grid3-cell-first{-khtml-user-select:none;-webkit-user-select:ignore;} /* prevents grid cells from being selected -- same behaviour as unselectable="on" */
+
+.x-tree-node a,.x-dd-drag-ghost a{-webkit-user-select:none;}
+
+.x-menu-list-item{-webkit-user-select:ignore;}
+
+.x-menu-focus{-webkit-user-select:text;}
+
+.x-slider-focus{-webkit-user-select:text;}
+outline: 2px auto -webkit-focus-ring-color;
+*/
+</script>
+</Head>
+
+<body>
+
+<table>
+
+<tr>
+<td>User Name:</td>
+<td>
+<input type="text" id="txtPass" class="nohighlight"  />
+</td>
+</tr>
+
+<tr>
+<td>Password:</td>
+<td>
+<input type="password" id="txtPass" />
+</td>
+</tr>
+</table>
+</Body>
+
+</html>

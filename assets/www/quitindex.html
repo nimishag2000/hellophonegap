@@ -1,0 +1,645 @@
+<!doctype html>
+<html>
+    <head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<title>QuitNet Mobile</title>
+		   
+		<style type="text/css" media="screen">@import "jqtouch/jqtouch.css";</style>
+		<style type="text/css" media="screen">@import "themes/qn1/theme.css";</style>
+		<style type="text/css" media="screen">@import "themes/qn1/iscroll.css";</style>
+		<link rel="stylesheet" href="extensions/add2home.css" />
+		
+		<script type="text/javascript" charset="utf-8" src="phonegap-1.3.0.js"></script>
+		<script type="text/javascript" charset="utf-8" src="main.js"></script>
+		<script type="application/javascript" src="extensions/add2home.js"></script>
+		<script src="jqtouch/jquery-1.4.2.js" type="text/javascript" charset="utf-8"></script>
+		<script src="jqtouch/jqtouch.js" type="application/x-javascript" charset="utf-8"></script>
+		<script src="jqtouch/iscroll.js" type="application/x-javascript" charset="utf-8"></script>
+		<script src="Jquery/jquery.blockUI.js" type="text/javascript"></script>
+		<script src="Jquery/jqryCookies.js" type="text/javascript"></script>
+		<script src="Jquery/BLogic.js" type="text/javascript"></script>
+		<script src="Jquery/Common.js" type="text/javascript"></script>
+		<script src="Jquery/Validation.js" type="text/javascript"></script>
+
+		<script type ="text/javascript">
+			//http://cubiq.org/dropbox/iscroll4/examples/pull-to-refresh/
+			var hdBkMark = '', PageURL = '', WSPath = '', CurPageMsg = 0, CurPageThrd = 0, isUnderProcess = 0;
+			var forumLoad = ''; ThreadLoad = ''; MessageLoad = '', PageRefresh='1';
+
+			var jqtht = 0, thdht = 0, DisplayMessageforLoading = 'Click here or Pull up to load more...';
+
+			var myScroll,
+			pullDownEl, pullDownOffset,
+			pullUpEl, pullUpOffset,
+			generatedCount = 0;
+
+			// unblock when ajax activity stops     
+			//$(document).ajaxStop($.unblockUI);
+
+			$(document).ready(function () {
+				//alert('');
+				SetWaterMark();
+
+				$(document).ajaxStart($.blockUI).ajaxStop($.unblockUI).ajaxComplete($.unblockUI);
+				//$(document).ajaxStart($.blockUI({ message: 'Just a moment...</h1>' }).ajaxStop($.unblockUI);
+				//$('#myquit').block({ message: '<h1>Processing...</h1>', }); 
+
+				//        $(document).ajaxComplete(
+				//        //$.unblockUI
+				//        function (event, request, settings) {
+				//            alert("<h1>Request Complete.</h1>");
+				//        }
+				//        );
+
+				myScroll = new iScroll('wrapper');
+
+				setDivJqtHeight('#login');
+
+				//        var my_select = document.getElementsByTagName('select');
+				//        for (var i = 0; i < my_select.length; i++) {
+				//            my_select[i].addEventListener('touchstart' /*'mousedown'*/, function (e) {
+				//                myScroll.destroy();
+				//                setTimeout(function () { myScroll = new iScroll('wrapper'); }, 500);
+				//            }, false);
+				//        }
+
+				/*if you have input problems */
+
+				//        var input = document.getElementById('input');
+				//        if (input) {
+				//            input.addEventListener('touchstart' /*'mousedown'*/, function (e) {
+				//                e.stopPropagation();
+				//            }, false);
+				//        }
+
+				PageURL = location.href;
+				//WSPath = '';
+				//WSPath = 'http://192.168.1.209/qnwa';
+				WSPath = 'http://qapi.communiversal.com';
+				// WSPath = 'http://localhost:4267/quitnet.ihomecare.net';
+				//        if (PageURL.indexOf('F:') >= 0)
+				//        //WSPath = 'http://staging.beta.quitnet.com';
+				//            WSPath = 'http://qapi.communiversal.com';
+				//        else
+				//            WSPath = '';
+				// alert(WSPath);
+			});
+		</script>        
+
+		<script  type="text/javascript">
+			$(document).ready(function () {
+				$(".grayButton").click(function () {
+					//alert('Hi');
+					//$("#header, #footer").fadeIn("slow");
+				});
+
+				$('#hdCurMessagePage').val(1);
+				$('#hdCurThreadPage').val(1);
+
+				//alert('checking session');
+				//CheckingSession();
+
+				//                var chkRemember = '';
+				//                chkRemember = getCookie('remember-me');
+				//                if (chkRemember != '')
+				//                    $('#userName').val(chkRemember);
+			});
+		</script>
+		  
+		<script type="text/javascript">
+			document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+
+			document.addEventListener('DOMContentLoaded', setTimeout(function () { loaded(); }, 200), false);
+					$('#userInfo').hide();
+
+					$('#jqt .info').click(function () {
+						$(this).hide();
+						//alert('Hide');
+					});
+		</script>   
+
+		<script type="text/javascript" charset="utf-8">
+			var jQT, login, header, footer, wrapper = new $.jQTouch({
+				icon: 'quitnet-touch.png',
+				icon4: 'quitnet-touch4.png',
+				addGlossToIcon: true,
+				startupScreen: 'loading-screen.png',
+				statusBar: 'black',
+				preloadImages: [
+					'../../themes/qn1/img/activeButton.png',
+					'../../themes/qn1/img/back_button.png',
+					'../../themes/qn1/img/back_button_clicked.png',
+					'../../themes/qn1/img/blueButton.png',
+					'../../themes/qn1/img/button.png',
+					'../../themes/qn1/img/button_clicked.png',
+					'../../themes/qn1/img/grayButton.png',
+					'../../themes/qn1/img/greenButton.png',
+					'../../themes/qn1/img/redButton.png',
+					'../../themes/jqt/img/whiteButton.png',
+					'../../themes/jqt/img/loading.gif'
+					]
+			});
+
+			// Some sample Javascript functions:
+			$(function () {
+				// Show a swipe event on swipe test
+				$('#swipeme').swipe(function (evt, data) {
+					$(this).html('You swiped <strong>' + data.direction + '/' + data.deltaX + ':' + data.deltaY + '</strong>!');
+					$(this).parent().after('<li>swiped!</li>')
+
+				});
+				$('#tapme').tap(function () {
+					$(this).parent().after('<li>tapped!</li>')
+				})
+				$('a[target="_blank"]').click(function () {
+					if (confirm('This link opens in a new window.')) {
+						return true;
+					} else {
+						return false;
+					}
+				});
+				// Page animation callback events
+				$('#pageevents').
+					bind('pageAnimationStart', function (e, info) {
+						$(this).find('.info').append('Started animating ' + info.direction + '&hellip; ');
+					}).
+					bind('pageAnimationEnd', function (e, info) {
+						$(this).find('.info').append(' finished animating ' + info.direction + '.<br /><br />');
+					});
+				// Page animations end with AJAX callback event, example 1 (load remote HTML only first time)
+				$('#callback').bind('pageAnimationEnd', function (e, info) {
+					// Make sure the data hasn't already been loaded (we'll set 'loaded' to true a couple lines further down)
+					if (!$(this).data('loaded')) {
+						// Append a placeholder in case the remote HTML takes its sweet time making it back
+						// Then, overwrite the "Loading" placeholder text with the remote HTML
+						$(this).append($('<div>Loading</div>').load('ajax.html .info', function () {
+							// Set the 'loaded' var to true so we know not to reload
+							// the HTML next time the #callback div animation ends
+							$(this).parent().data('loaded', true);
+						}));
+					}
+				});
+				// Orientation callback event
+				$('#jqt').bind('turn', function (e, data) {
+					$('#orient').html('Orientation: ' + data.orientation);
+				});
+				$('#play_movie').bind('tap', function () {
+					$('#movie').get(0).play();
+					$(this).removeClass('active');
+				});
+
+				$('#video').bind('pageAnimationStart', function (e, info) {
+					$('#movie').css('display', 'none');
+				}).bind('pageAnimationEnd', function (e, info) {
+					if (info.direction == 'in') {
+						$('#movie').css('display', 'block');
+					}
+				})
+			});
+		</script>
+		
+		<style type="text/css" media="screen">
+			#jqt.fullscreen #home .info {
+				display: none;
+			}
+			div#jqt #about {
+				padding: 100px 10px 40px;
+				text-shadow: rgba(255, 255, 255, 0.3) 0px -1px 0;
+				font-size: 13px;
+				text-align: center;
+				background: #161618;
+			}
+			div#jqt #about p {
+				margin-bottom: 8px;
+			}
+			div#jqt #about a {
+				color: #fff;
+				font-weight: bold;
+				text-decoration: none;
+			}
+		</style>
+    </head>
+    <body>
+		<div id="header">
+			<ul>
+				<li class="left"><a onclick="<script  type='text/javascript' >showDivData('#myquit', 'show');</script>"><img src="images/logo.png"  width="120" height="41" alt="Logo" /></a></li>
+				<li class="top-inactive" id="right"><a class="button slideup" href="#"><img src="images/buddies-top-bar.png" alt="Gadget" width="40" height="30" border="0"></a></li>
+				<li class="top-inactive" id="right"><a href="#"><img src="images/qmail-top-bar.png" alt="QMail" width="40" height="30" border="0"></a></li> 
+				<li class="top-inactive" id="right"><a href="#"><img src="images/chat-top-bar.png" alt="Forums" width="40" height="30" border="0"></a></li>  
+			</ul>
+		</div><!--topbar-->
+		
+		<div id="wrapper">
+			<div id="jqt" style="height:900px">
+			
+				<div id="login" class="current">
+					<p class="center" style="vertical-align:0"><img src="images/logo.png" width="120" height="41" alt="QuitNet Mobile Beta" /></p>
+                    <ul>
+						<li><form autocomplete="off"><input id="userName" name="userName" type="text" watermark="Username" value="misterken2"  /></form></li><br/>
+                    </ul>
+                    <ul>
+                        <li><form autocomplete="off"><input id="userPass" name="userPass" type="password" watermark="Password" value="111111"  /></form></li><br>
+                    </ul>
+                    <ol class="blank-ul">
+					    <li class="center-big"><input name="remember-me" id="remember-me" type="checkbox" value="1" checked />Remember me
+							<div id="userInfo" class="info" style="display:none;font-weight: normal;"></div>
+							<a onClick="mainLogin();" class="grayButton">Login</a></li>
+					    <li class="center" style="font-weight: normal;">Not member?  Please visit www.quitnet.com on your computer to Register as a Free or Premium member!</li>
+					</ol>
+                </div>
+				
+				<div id="gadget" class="selectable">
+					<p><br /><br /><a href="#" class="grayButton goback">Close</a></p>
+				</div>
+				
+				<div id="myquit" class="Divdisplay">
+					<div class="dashbar">
+						<table width="100%" border="0" cellpadding="0" cellspacing="0">
+							<tr>
+								<td class="dashlink" height="44" align="center" valign="middle"><a onClick="getForums()" ><img src="images/dash-icn-1.png" width="45" height="44" alt="icn1"></a></td>
+								<td class="inactive" align="center" valign="middle"><img src="images/dash-icn-2.png" width="56" height="44" alt="icn2"></td>
+								<td class="inactive" align="center" valign="middle"><img src="images/dash-icn-3.png" width="31" height="44" alt="icn3"></td>
+								<td class="inactive" align="center" valign="middle"><img src="images/dash-icn-4.png" width="44" height="44" alt="icn4"></td>
+							</tr>
+							<tr>
+								<td height="10" align="center" valign="top" class="black-text">Forums</td>
+								<td  class="gray-text" align="center" valign="top">Community</td>
+								<td class="gray-text" align="center" valign="top">Support</td>
+								<td class="gray-text" align="center" valign="top">Medication</td>
+							</tr>
+						</table>
+					</div >
+					<ul class="metal">
+						<li class="">
+							<table border="0" cellpadding="0" cellspacing="0">
+								<tr>
+									<td align="left" valign="top"><img src="images/icon-tiny-community.png" width="16" height="16"></td>
+									<td colspan="3" align="left" valign="middle">
+										<table border="0" cellpadding="0">
+											<tr>
+												<td class="blue-text">Online :</td>
+												<td class="em-text"><span id='online'></span></td>
+											</tr>
+										</table>
+									</td>
+									<td align="left" valign="middle">
+										<table border="0" cellpadding="0">
+											<tr>
+												<td class="blue-text">Buddies :</td>
+												<td class="em-text"><span id="Buddies"></span></td>
+											</tr>
+										</table>
+									</td>
+									<td align="left" valign="middle">
+										<table border="0" cellpadding="0">
+											<tr>
+												<td class="blue-text">Anniversaries :</td>
+												<td class="em-text"><span id="Anniversaries"></span></td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</li>
+						<li class="">
+							<table width="90%" border="0" cellpadding="0" >
+								<tr>
+									<td width="18" align="left" valign="top" ><img src="images/icon-tiny-gadget.png" width="16" height="16"></td>
+									<td width="28" align="left" style="white-space:nowrap" valign="middle"><strong>Quit Date is</strong></td>
+									<td width="10" align="center" valign="middle">:</td>
+									<td align="left" valign="middle">
+										<table>
+											<tr>
+												<td><span id="QuitDate"></span></td>
+												<td>&nbsp;</td>
+												<td style="white-space:nowrap" ><a onClick="javascript:showDivData('#QtDate', 'show');" ><i class="blue-text"><img src="images/edit.png" width="48" height="16" alt="Edit" /></i></a></td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td align="left" valign="middle" style="white-space:nowrap"><strong>Smoke-Free</strong></td>
+									<td align="center" valign="middle">:</td>
+									<td align="left" valign="middle"><span id="SmokeFreeDays"></span> days, <span id="Hours"> hours</span></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td align="left" valign="middle" style="white-space:nowrap"><strong>NOT smoked</strong></td>
+									<td align="center" valign="middle">:</td>
+									<td align="left" valign="middle">
+										<table>
+											<tr>
+												<td><span id="NotSmoked"></span> Cigarettes</td>
+												<td>&nbsp;</td>
+												<td ><a onclick="javascript:showDivData('#QtStat', 'show');" ><i class="blue-text"><img src="images/edit.png" width="48" height="16" alt="Edit" /></i></a></td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td align="left" valign="middle" style="white-space:nowrap"><strong>Lifetime Saved</strong></td>
+									<td align="center" valign="middle">:</td>
+									<td align="left" valign="middle"><span id="SavedDays"></span> days : <span id="SavedHours"></span> hr</td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td align="left" valign="middle" style="white-space:nowrap"><strong>Money Saved</strong></td>
+									<td align="center" valign="middle">:</td>
+									<td align="left" valign="middle" style="width:500px"><span id="SavedMoney"></span></td>
+								</tr>
+							</table>
+						</li>
+						<li class="">
+							<table border="0" cellpadding="0">
+								<tr>
+									<td width="18" align="left" valign="top"><img src="images/icon-tiny-messages.png" width="16" height="16"></td>
+									<td width="235" align="left" valign="middle"><span id="SampleAlert"></span>      KTQ! Chat schedule</td>
+								</tr>
+								<tr>
+									<td align="left" valign="top"><img src="images/icon-tiny-events.png" width="16" height="16"></td>
+									<td align="left" valign="middle"><strong>Listing of upcoming event </strong><br>    <span id="SampleUpcomingEvent"></span></td>
+								</tr>
+							 </table>
+						</li>
+						<li class="">
+							<table border="0" cellpadding="0">
+								<tr>
+									<td width="18" align="left" valign="top"><img src="images/icon-tiny-myclubs.png" width="16" height="16"></td>
+									<td width="235" align="left" valign="middle"><span id="myClubs"></span></td>
+								</tr>
+							</table>
+						</li>
+					</ul>
+				</div>
+				
+				<div id="forum" class="Divdisplay">
+					<div class="toolbar">
+						<h1>Forums</h1>
+						<a class="back" onclick="javascript:showDivData('#myquit','hide')"> Home</a>
+						<!--<span class="back" onclick="showDivData('#myquit','hide')" >Home</span-->>
+					</div>
+					<ul class="metal">
+					</ul>
+				</div> <!--forum-->
+			 
+				<div id="forum-thread" class="Divdisplay">
+					<div class="toolbar">
+						<h1>Forum Thread</h1>
+						<a class="back" onclick="javascript:showDivData('#forum','hide')" >Forums</a>
+						<!--<span class="back" onclick="showDivData('#forum','hide')" >Forums</span>-->
+					</div>
+					<ul class="metal">
+					</ul>
+				</div><!--forum-thread-->
+
+				<div id="thread-post" class="Divdisplay">
+					<div class="toolbar">
+						<h1> Thread Post</h1>
+						<a class="back" onclick="javascript:showDivData('#forum-thread','hide');" >Threads</a>
+						<!--<span class="back" onclick="showDivData('#forum-thread','hide');" >Threads</span>-->
+					</div>
+					<ul class="metal">
+					</ul>
+				</div><!--thread-post-->
+	 
+				<div id="thread-reply"  style="height:400px">
+					<div class="toolbar">
+						<h1> Thread Reply</h1>
+						<a class="back" onClick="showDivData('#thread-post','hide')" >Threads</a>
+					</div>
+					<ul class="metal">
+						<li>
+							<table width="90%" border="0" cellpadding="0" align="center">
+								<tr>
+									<td align="center">
+										<table width="90%" border="0" cellpadding="10" cellspacing="0" style ="border-color:gray">
+											<tr>
+												<td align="center">
+													<textarea name="reply" id="reply" watermark="Enter reply">Enter reply</textarea>
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+								<tr>
+									<td height="50"  align="center"><span class="center-big"><a onclick="javascript:ReplyPost();" class="grayButton">Reply</a></span></td>
+								</tr>
+							</table>
+						</li>
+					 
+					</ul>
+				</div><!--thread-reply-->
+
+				<div id="new-post"  style="height:400px">
+					<div class="toolbar">
+						<h1> New Post</h1>
+						<a class="back" onclick="showDivData('#forum-thread','hide')">Back</a>
+					</div>
+					<ul class="metal">
+						<li>
+							<table width="90%" border="0" cellpadding="0">
+								<tr>
+									<td colspan="2" align="center">
+										<table width="90%" border="0" cellpadding="10" cellspacing="0" style ="border-color:gray">
+											<tr>
+												<td align="center" colspan="2" ><br /><input type="text" name="postsubject" id="postsubject"  maxlength="50" watermark="Enter Subject" value="Enter Subject" /><br /><br /></td>
+											</tr>
+											<tr>
+												<td align="center" colspan="2"><textarea name="newpost" id="newpost" watermark="Enter New Post" >Enter New Post</textarea></td>
+											</tr>
+											<tr>
+												<td align="center" colspan="2"><a href="tel:411" class="btn large">Call 411</a></td>
+											</tr>
+				
+										</table>
+									</td>
+								</tr>
+								<tr>
+									<td height="50" align="center" >
+										<table width="90%" border="0" cellpadding="0">
+											<tr>
+												<td height="50" align="center" ><span class="center-big"><a onClick="javascript:SaveNewPost();" href="#" class="grayButton">Post</a></span></td>
+												<td height="50" align="center" ><span class="center-big"><a onClick="showDivData('#forum-thread','hide');" href="#" class="grayButton">Cancel</a></span></td>
+											</tr>
+										</table>
+									</td> 
+								</tr>
+							</table>
+						</li>
+					</ul>
+				</div><!--new-post-->     
+				
+				<div id="Message-Report"  style="height:400px">
+					<div class="toolbar">
+						<h1> Report</h1>
+						<a class="back" onClick="showDivData('#thread-post','hide')" >Threads</a>
+					</div>
+					 <ul class="metal">
+						<li>
+							<table width="90%" border="0" cellpadding="0" align="center">
+								<tr>
+									<td align="center">
+										<table width="90%" border="0" cellpadding="10" cellspacing="0" style ="border-color:gray">
+											<tr>
+												<td align="center">
+													<textarea name="txtReport" id="txtReport" watermark="Enter reason">Enter reason</textarea>
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+								<tr>
+									<td height="50"  align="center"><span class="center-big"><a onclick="javascript:MessageReport();" class="grayButton">Report</a></span></td>
+								</tr>
+							</table>
+						</li>
+					</ul>
+				</div><!--Message-Report-->                         
+
+				<div id="Feedback"  style="height:400px">
+					<div class="toolbar">
+						<h1>Feedback</h1>
+						<a class="back" onclick="showDivData('#myquit','hide')">Back</a>
+					</div>
+					<ul class="metal">
+						<li>
+							<table width="90%" border="0" cellpadding="0" >
+								<tr>
+									<td colspan="2" align="center">
+										<table width="90%" border="0" cellpadding="10" cellspacing="0" style ="border-color:gray">
+											<tr>
+												<td align="center" ><input  type="text" name="Feedbacksubject" id="Feedbacksubject"  maxlength="50" watermark="Enter Subject" value="Enter Subject" /><br /><br /></td>
+											</tr>
+											<tr>
+												<td align="center" ><textarea name="txtFeedback" id="txtFeedback" watermark="Enter Feedback" >Enter Feedback</textarea></td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+								<tr>
+									<td height="50"colspan="2"><span class="center-big"><a onclick="javascript:SaveFeedback();" class="grayButton">Submit</a></span></td>
+								</tr>
+							</table>
+						</li>
+					</ul>
+				</div><!--Feedback--> 
+
+				<div id="QtDate"  style="height:400px">
+					<div class="toolbar">
+						<h1> Quit Date</h1>
+						<a class="back" onclick="showDivData('#myquit','hide')">Back</a>
+					</div>
+					<ul class="metal">
+						<li>
+							<table width="90%" border="0" cellpadding="0" align="center" >
+								<tr>
+									<td colspan="2" align="center">
+										<table  width="90%" border="0" cellpadding="10" cellspacing="0" style ="border-color:gray">
+											<tr>
+												<td align="center" style="white-space:nowrap" >Tobacco Type : Cigarettes</td>
+											</tr> 
+											<tr>
+												<td align="center" ><input type="text" name="txtQiutDt" id="txtQiutDt" maxlength="10" watermark="Enter Date(MM/DD/YYYY)" value="Enter Date(MM/DD/YYYY)"  onblur = "CheckDate(this);" /></td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+								<tr>
+									<td height="20%" colspan="2" ><span class="center-big"><a onclick="javascript:EditQtDate();" class="grayButton">Update</a></span></td>
+								</tr>
+							</table>
+						</li>
+					</ul>
+				</div><!--QtDate-->  
+
+				<div id="QtStat" style="height:400px">
+					<div class="toolbar">
+						<h1> Quit Stats</h1>
+						<a class="back" onclick="showDivData('#myquit','hide')">Back</a>
+					</div>
+					<ul class="metal">
+						<li>
+							<table width="90%" border="0" cellpadding="0">
+								<tr>
+									<td colspan="2" align="center">
+										<table  width="90%" border="0" cellpadding="10" cellspacing="0" style ="border-color:gray">
+											<tr>
+												<td align="center" style="white-space:nowrap">Tobacco Type : Cigarettes</td>
+											</tr> 
+											<tr>
+												<td align="left"><input type="text" name="txtQuantity" id="txtQuantity" maxlength="5" watermark="Enter Quantity" value="Enter Quantity" /><br /><br /></td>
+											</tr>
+											<tr>
+												<td align="left"><input type="text" name="txtQtyPerPack" id="txtQtyPerPack"   maxlength="2"  watermark="Enter Quantity Per Pack" value="Enter Quantity Per Pack"/><br /><br /></td>
+											</tr>
+											<tr>
+												<td align="left"><input type="text" name="txtCostPerPack" id="txtCostPerPack"  maxlength="7"   watermark="Enter Cost Per Pack" value="Enter Cost Per Pack"/><br /></td>
+											</tr>
+										</table>
+									</td>
+								</tr>                            
+								<tr>
+									<td colspan="2" height="50"><span class="center-big"><a onclick="javascript:EditStatData();" class="grayButton">Update</a></span></td>
+								</tr>
+							</table>
+						</li>
+					</ul>
+				</div><!--Message-Report-->  
+				
+				<div id="pullUp">
+					<img id="imgProcessing" src="themes/qn1/img/loader5.gif"  alt=""  />
+					<span class="pullUpIcon"></span><span onclick="javascript:AutoLoadContent();"  class="pullUpLabel">Click here or Pull up to refresh...</span>
+				</div>
+			</div>
+        </div><!--wrapper-->
+
+        <div id="footer">
+			<input type="hidden" id="hdSessonID" name ="hdSessonID"  />
+			<input type="hidden" id="hdForumID" name ="hdForumID"  />
+			<input type="hidden" id="hdReportMessageID" name ="hdReportMessageID"  /> 
+			<input type="hidden" id="hdMessageID" name ="hdMessageID"  /> 
+			<input type="hidden" id="hdForumName" name ="hdForumName"  /> 
+			<input type="hidden" id="hdThreadName" name ="hdThreadName"  /> 
+			<input type="hidden" id="hdThreadID" name ="hdThreadID"  /> 
+			<input type="hidden" id="hdBkMark" name ="hdBkMark"  /> 
+			<input type="hidden" id="hdCurMessagePage" name ="hdCurMessagePage"  /> 
+			<input type="hidden" id="hdCurThreadPage" name ="hdCurThreadPage"   /> 
+			<ul>
+				<li class="" id="right">
+					<table id="footer-menu" width="250" border="0" cellpadding="0" cellspacing="0" >
+						<tr>
+							<td width="30" align="center" valign="middle" class="menu-icn"id="td1"><a  onclick="javascript:jQueryUILogout();" ><img src="images/logout.png" alt="reply" width="27" height="27" border="0"/></a></td>
+							<td width="64">&nbsp;</td>
+							<td width="23">&nbsp;</td>   
+							<td width="30" align="center" valign="middle" class="menu-icn"id="tdreplyimg"><a onclick="javascript:showDivData('#thread-reply', 'show');" ><img src="images/icn-reply.png" alt="reply" width="19" height="17" border="0"/></a></td>
+							<td width="64">&nbsp;</td>
+							<td width="23">&nbsp;</td>    
+							<td width="59" align="center" valign="middle" class="menu-icn" id="tdnewpostimg"><a onclick="javascript:showDivData('#new-post', 'show');" ><img src="images/btn-new-post.png" alt="new-post" width="24" height="24" border="0"></a></td>
+							<td width="64">&nbsp;</td>
+							<td width="23">&nbsp;</td>
+							<td width="104"  id="tdfdback"><a onclick="javascript:showDivData('#Feedback', 'show');"><img src="images/bot-bar-feedback.png" alt="QMail" width="37" height="27" border="0" /></a></td>
+						</tr>
+						<tr>
+							<td align="center" valign="top" class="menu-op"  id="tdlogout"><a  onclick="javascript:jQueryUILogout();" >Logout</a></td>
+							<td width="64">&nbsp;</td>
+							<td width="23">&nbsp;</td>
+							<td align="center" valign="top" class="menu-op"  id="tdreplytxt">Reply</td>
+							<td width="64">&nbsp;</td>
+							<td width="23">&nbsp;</td>
+							<td align="center" valign="top" class="menu-op" id="tdnewposttxt" style="white-space:nowrap">New Post</td>
+							<td align="center" valign="top" class="menu-op">&nbsp;</td>
+							<td align="center" valign="top" class="menu-op">&nbsp;</td>
+							<td align="left" valign="top" class="menu-op"  id="tdfdbktxt">Feedback</td>
+						</tr>
+					</table>
+				</li> 
+			</ul>
+        </div>
+    </body>
+</html>
